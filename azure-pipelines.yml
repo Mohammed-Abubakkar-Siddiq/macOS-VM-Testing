@@ -23,3 +23,8 @@ steps:
     ip=$(curl -s https://api.ipify.org)
     echo "macOS VM IP address: $ip"
   displayName: 'Get macOS VM IP'
+
+- script: |
+    echo "Agent IP Address: $AGENT_IP_ADDRESS"
+    echo "Agent OS: $AGENT_OS"
+  displayName: 'Print Diagnostic Information'
