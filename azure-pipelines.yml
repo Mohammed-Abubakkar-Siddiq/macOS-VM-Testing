@@ -33,3 +33,22 @@ steps:
     IP=($(curl -s http://ipinfo.io/json | jq '.ip' | sed -e 's/^"//' -e 's/"$//'))
     echo "This Microsoft hosted agent public IP is: $IP"
   displayName: 'Get Agent Public IP'
+  
+- script: |
+    # Authenticate with Azure
+    az login --service-principal -u <service_principal_id> -p <service_principal_password> --tenant <tenant_id>
+
+    # Create a resource group
+    az group create --name myResourceGroup --location eastus
+
+    # Create a VM
+    az vm create --resource-group myResourceGroup --name myVM --image UbuntuLTS --admin-username azureuser --admin-password P@ssw0rd1234
+
+    # Retrieve the username and password
+    username=$(az vm show -g myResourceGroup -n myVM --query 'osProfile.adminUsername' -o tsv)
+    password=$(az vm show -g myResourceGroup -n myVM --query 'osProfile.adminPassword' -o tsv)
+
+    echo "Username: $username"
+    echo "Password: $password"
+  displayName: 'Create and Retrieve VM Credentials'
+
