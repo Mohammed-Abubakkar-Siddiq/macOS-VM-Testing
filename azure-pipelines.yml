@@ -9,17 +9,20 @@ trigger:
 pool: Default
 
 steps:
-- script: |
-    #running license validator console
-    $result = D:\Test\LicenseKeyValidatorConsole\LicenseKeyValidatorConsole\LicenseKeyValidatorConsole\bin\Debug\LicenseKeyValidatorConsole.exe /platform:WPF /version:25.1.35 /licensekey:MDAxQDMyMzUyZTMwMmUzMEhrMGovQVhCd3Q0cHpPaEs5Tk1LekdvVlZSVGcxdS9EM3MzdWVOSFR3dU
-    # Check the output of the tool
-    if ($result.Trim() -eq "Valid Key") {
-      Write-Output "License key is valid. Proceeding to FinalBuilder task."
-    }
-    else {
-      Write-Error "Invalid license key. Terminating the pipeline."
-      exit 1  # Terminate the pipeline with a non-zero exit code
-    }
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      #running license validator console
+      $result = D:\Test\LicenseKeyValidatorConsole\LicenseKeyValidatorConsole\LicenseKeyValidatorConsole\bin\Debug\LicenseKeyValidatorConsole.exe /platform:WPF /version:25.1.35 /licensekey:MDAxQDMyMzUyZTMwMmUzMEhrMGovQVhCd3Q0cHpPaEs5Tk1LekdvVlZSVGcxdS9EM3MzdWVOSFR3dU
+      # Check the output of the tool
+      if ($result.Trim() -eq "Valid Key") {
+        Write-Output "License key is valid. Proceeding to FinalBuilder task."
+      }
+      else {
+        Write-Error "Invalid license key. Terminating the pipeline."
+        exit 1  # Terminate the pipeline with a non-zero exit code
+      }
   displayName: 'Validating License Key'
 
 - task: FinalBuilder@1
