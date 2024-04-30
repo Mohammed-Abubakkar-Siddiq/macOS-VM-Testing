@@ -15,6 +15,17 @@ steps:
     filePath: D:\LicenseKeyValidatorConsole\LicenseValidateScript.ps1
 
   displayName: 'Validating License Key'
+  
+
+- task: PowerShell@2
+  inputs:
+    targetType: inline
+    script: |
+      $result = D:\LicenseKeyValidatorConsole\LicenseKeyValidatorConsole.exe /platform:Blazor /version:25.1.34 /licensekey:${env:SYNCFUSION_LICENSE}
+      Write-Host $result
+  
+  displayName: Validation Test
+
 
 - task: FinalBuilder@1
   inputs:
