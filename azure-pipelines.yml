@@ -13,7 +13,7 @@ steps:
 - task: PowerShell@2
   inputs:
     targetType: filePath
-    filePath: $(LICENSE_VALIDATION)
+    filePath: $(LICENSE_VALIDATION) # Or the actual path to the script
   
   displayName: License Validation 
 
