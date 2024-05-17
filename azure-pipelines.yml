@@ -13,7 +13,7 @@ steps:
 - task: PowerShell@2
   inputs:
     targetType: filePath
-    filePath: D:\LicenseKeyValidatorConsole\LicenseValidateScript.ps1
+    filePath: $(LICENSE_VALIDATION)
   
   displayName: License Validation 
 
