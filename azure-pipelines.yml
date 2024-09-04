@@ -12,15 +12,11 @@ steps:
 
 - task: PowerShell@2
   inputs:
-    targetType: filePath
-    filePath: $(LICENSE_VALIDATION) # Or the actual path to the script
-  
-  displayName: License Validation 
+    targetType: inline
+    arguments: 
+    script: |
+      $ToolPath = "D:\Test\CI-LicenseValidato\LicenseKeyValidatorConsole\bin\Debug1\LicenseKeyValidatorConsole.exe"
 
+      $LicenseValidationResult = & $ToolPath /platform:$(PLATFORM) /version:$(VERSION) /sourcelocation:$(SOURCE_LOCATION)
 
-- task: FinalBuilder@1
-  inputs:
-    projectfile: 'D:\Test\LicenseKeyValidatorConsole\FinalBuilder\Test.fbp8'
-- task: PowerShell@2
-  inputs:
-    filePath: '$(LICENSE_VALIDATION)'
+      Write-Host $LicenseValidationResult
